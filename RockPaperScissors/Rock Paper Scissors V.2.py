@@ -9,11 +9,11 @@ root.title("ROCK VS PAPER VS SCISSORS")
 
 #
 rock_img = ImageTk.PhotoImage(Image.open(
-    "C:/Users/dy1an/OneDrive/Desktop/for fun python/rock paper scissors/Images/rock.png"))
+    "Images/rock.png"))
 paper_img = ImageTk.PhotoImage(Image.open(
-    "C:/Users/dy1an/OneDrive/Desktop/for fun python/rock paper scissors/Images/paper.png"))
+    "Images/paper.png"))
 scissors_img = ImageTk.PhotoImage(Image.open(
-    "C:/Users/dy1an/OneDrive/Desktop/for fun python/rock paper scissors/Images/scissors.png"))
+    "Images/scissors.png"))
 
 Image_list = [rock_img,paper_img,scissors_img]
 
