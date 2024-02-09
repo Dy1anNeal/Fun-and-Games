@@ -18,7 +18,7 @@ def find_words(words): #gets all 5 letter words out of a set of words
     return valid_words
 
       
-def analyse(coord):
+def analyse(coord): #a function to check words given by player
     global z
     global win
     
@@ -30,10 +30,10 @@ def analyse(coord):
     in_word = user_word.get()
     in_word = in_word.lower()
     
-    if len(in_word) != 5:
-        print("try again")
+    if len(in_word) != 5: #check to account for a player typing a word longer or shorter than 5 words
+        print("try again") 
         
-        word_entry.delete(0, END)
+        word_entry.delete(0, END) #deletes word in entry box
     else:
         word = listify(in_word,user_letters)
     
@@ -75,80 +75,16 @@ def listify(word,empty_list): #turns a given word into a list of the contained l
     return empty_list
 
 def restart(): #function allowing a restart of quit of the game
-    conn = sqlite3.connect("results_book.db")
-    c = conn.cursor()
 
-    c.execute("SELECT *, oid FROM results")
-    records = c.fetchall()
-    
-    if z == 1:
-        change = int(records[0][0]) + 1
-        c.execute("""UPDATE results SET
-        one = :one""",
-
-        {"one": change})
-    if z == 2:
-        change = int(records[0][1]) + 1
-        c.execute("""UPDATE results SET
-        two = :two""",
-
-        {"two": change})
-    if z == 3:
-        change = int(records[0][2]) + 1
-        c.execute("""UPDATE results SET
-        three = :three""",
-
-        {"three": change})
-    if z == 4:
-        change = int(records[0][3]) + 1
-        c.execute("""UPDATE results SET
-        four = :four""",
-
-        {"four": change})
-    if z == 5:
-        change = int(records[0][4]) + 1
-        c.execute("""UPDATE results SET
-        five = :five""",
-
-        {"five": change})
-    if z == 6 and win == True:
-        change = int(records[0][5]) + 1
-        c.execute("""UPDATE results SET
-        six = :six""",
-
-        {"six": change})
-    if win == False:
-        change = int(records[0][6]) + 1
-        c.execute("""UPDATE results SET
-        fails = :fails""",
-
-        {"fails": change})
-
-    c.execute("SELECT *, oid FROM results")
-    records = c.fetchall()
     data = []
-    count = 0
-    for i in records[0]:
-        if count <= 6:
-            data.append(i)
-        else:
-            pass
-        count += 1
 
     results = Toplevel()
 
-    mylabel = Label(results, image = plt.bar([1,2,3,4,5,6,7], data))
-    mylabel.grid(row = 0, column = 0, columnspan = 2)
-    
     replay = Button(results, text = "REPLAY?", bg = "grey", command = play_again)
     replay.grid(row = 1, column = 0)
     
     end = Button(results, text = "END GAME?", bg = "grey", command = fin)
-    end.grid(row = 1, column = 1)
-
-    conn.commit()
-    conn.close
-   
+    end.grid(row = 1, column = 1)   
 
 def fin():
     quit()
@@ -168,7 +104,7 @@ def wordle():
     screen = Tk()
     screen.geometry("500x500")
     screen.title("Wordle V2.0")
-    #screen.iconbitmap('C:\Users\dy1an\OneDrive\Desktop\for fun python\wordle\w.ico')
+    #screen.iconbitmap('C:\Users\dy1an\OneDrive\Desktop\Python\for fun python\wordle\Wordle game\w.ico')
     
     welcome_text = Label(text = "please input a 5 letter guess: ", fg = "red", bg = "yellow")
     welcome_text.pack()
@@ -181,36 +117,6 @@ def wordle():
 
     click_me = Button(text = "click me", fg = "red", bg = "yellow", command = partial(analyse, y_coord))
     click_me.place(x = 400, y = 50)    
-    #click_me.bind("<Return>",lambda:analyse(y_coord)) failed key binding
-
-conn = sqlite3.connect("results_book.db")
-c = conn.cursor()
-
-##c.execute("""CREATE TABLE results (
-##    one integer,
-##    two integer,
-##    three integer,
-##    four integer,
-##    five integer,
-##    six integer,
-##    fails integer
-##    )
-##    """)
-
-##c.execute("INSERT INTO results VALUES (:one, :two, :three, :four, :five, :six, :fails)",
-##            {
-##                "one": 0,
-##                "two": 0,
-##                "three": 0,
-##                "four": 0,
-##                "five": 0,
-##                "six": 0,
-##                "fails": 0,
-##            })
-
-
-conn.commit()
-conn.close
 
 wordle()
 
