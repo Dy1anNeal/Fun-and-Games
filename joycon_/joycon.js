@@ -1,3 +1,4 @@
+//initialising variables
 let first = true;
 let rotateCheck = false;
 let colorCheck = 0;
@@ -16,7 +17,7 @@ let timesMoved = 0;
 let len;
 
 let bodyPieces = []
-
+//conecting to html elements
 const body = document.querySelector('#bod')
 const frame = document.querySelector('#frame');
 const joycon = document.querySelector('#joycon');
@@ -39,15 +40,17 @@ const apple = document.querySelector('#apple');
 const deathScreen = document.querySelector('#deathScreen')
 const retryButton = document.querySelector('#retryButton')
 
+//button function for the retry button
 retryButton.addEventListener('click',retry)
 
+//text boxes used for tracking certain values
 const text1 = document.querySelector('#text1');
 const text2 = document.querySelector('#text2');
 const text3 = document.querySelector('#text3');
 const text4 = document.querySelector('#text4');
 const scoreText = document.querySelector('#scoreText')
 const direction = document.querySelector('#direction')
-
+//colors used to chnage the joycons color
 const colors = [
     {name: "red",
     compColor: "rgb(179, 0, 0)"},
@@ -59,19 +62,17 @@ const colors = [
      compColor: "rgb(189, 114, 45)"}
 ];
 
-
+//button functions for x and y 
 xButton.onclick = rotate;
 yButton.onclick = colorChange;
-
+//button functions for the arrow buttons on the left joycon
 upButton.addEventListener('click',moveUp);
 leftButton.addEventListener('click',moveLeft);
 rightButton.addEventListener('click',moveRight);
 downButton.addEventListener('click',moveDown);
-
+//button function for the screenshot button
 ssButton.onclick = screenShot;
-
-document.onkeypress = keypress() 
-
+//function to rotate the entire joycon frame
 function rotate() {
     if (rotateCheck === false){
         frame.style.transform = "rotate(90deg)";
@@ -81,6 +82,7 @@ function rotate() {
         rotateCheck = false;
     }
 };
+//function to change the joycon color
 function colorChange() {
     joycon.style.background = "linear-gradient(90deg,"+colors[colorCheck].name+" 0%,"+colors[colorCheck].name+" 90%,"+colors[colorCheck].compColor+")";
     joyconTop.style.background = "radial-gradient(circle at bottom left,"+colors[colorCheck].name+" 0%,"+colors[colorCheck].name+" 64%, black 90%)";
@@ -96,12 +98,14 @@ function screenShot() {
     flash.style.animation = "screenshot 4s linear 1"
 }
 
-//-MOVEMENT--------------------------------------------------------------//
-
+//-SNAKE-MOVEMENT--------------------------------------------------------------//
+//upwards movement
 function moveUp() {
+    //check to make sure the snake cannot move 180 degrees
     if (downCheck === 1){
         //pass
     }else{
+        //setting all direction checks to 0 apart from the upwards direction to stop any other movement
         upCheck ++;
         leftCheck = 0;
         rightCheck = 0;
@@ -116,11 +120,15 @@ function moveUp() {
 }
 function up(){
     if (upCheck === 1){
+        //changing the y corrdinate of the snake
         y -= 10;
         snake.style.transform = "translate(" + x + "px, " + y + "px)";
+        //checking colision
         appleColision(x, y);
         colisionY(x, y);
+        //delay to allow visable movement
         setTimeout(up,100)
+        //check to see if the snake reaches the boundry of the screen
         if (y < 0){
             y = Math.floor(window.innerHeight/10) * 10;
             if (first===true){
@@ -148,6 +156,7 @@ function up(){
         //pass
     }
 }
+//left movement
 function moveLeft() {
     if (rightCheck === 1){
         //pass
@@ -198,6 +207,7 @@ function left(){
         //pass
     }
 }
+//right movement 
 function moveRight() {
     if (leftCheck === 1){
         //pass
@@ -248,6 +258,7 @@ function right(){
         //pass
     }
 }
+//downwards movement 
 function moveDown() {
     if (upCheck === 1){
         //pass
@@ -298,16 +309,14 @@ function down(){
         //pass
     }
 }
-function key(){
-
-}
 //-APPLE--------------------------------------------------------------//
-
+//function to move the apple each time it is collected
 function appleMove() {
     axNew = Math.floor(Math.random()*window.innerWidth/10)*10;
     ayNew = Math.floor(Math.random()*window.innerHeight/10)*10;
     return (axNew, ayNew)
 }
+//function to change the coordinates used for the snake head and bodypieces
 function coordinateChange(sx,sy,ax,ay) {
     text1.innerText = "sx  =  " + sx;
     text2.innerText = "sy  =  " + sy;
@@ -316,6 +325,7 @@ function coordinateChange(sx,sy,ax,ay) {
     positionY.push(y);
     positionX.push(x);
     timesMoved ++;
+    //setting the length of the array = to the length of the snake
     Len = timesMoved - score -1;
     positionXNew = positionX.slice(Len);
     positionYNew = positionY.slice(Len);
@@ -325,6 +335,7 @@ function coordinateChange(sx,sy,ax,ay) {
 
     return (positionXNew,positionYNew)
 }
+//function to detect if the snake colides with the apple
 function appleColision(sx, sy) {
     if (sx === ax && sy === ay){
         appleMove();
@@ -334,6 +345,7 @@ function appleColision(sx, sy) {
         coordinateChange(sx,sy,ax,ay);
         score ++;
         scoreText.innerText = "Score = " + score; 
+        //creates a new snake square to add on to the back of the snake
         var square = document.createElement('div');
         square.className = `snake snakeBody${score}`;
         square.id = `snakeBody${score}`
@@ -347,7 +359,7 @@ function appleColision(sx, sy) {
     return (positionXNew,positionYNew)
 }
 //-DEATH--------------------------------------------------------------//
-
+//function for what hapens upon losing the game
 function death(){
     flash.style.animation = "death 4s linear 1";
     deathScreen.style.transform = "scale(1)";
@@ -356,44 +368,7 @@ function death(){
     rightCheck = 0;
     downCheck = 0;
 }
-
-function colisionCheckX(sx,sy){
-    if (first === false){
-        arrayCheckX = positionXNew.slice(1)
-        if (arrayCheckX.includes(sx)){
-            xIndex = arrayCheckX.indexOf(sx)
-            direction.innerText = xIndex;
-            if (positionYNew[xIndex] === sy){
-                death();
-            }else{
-                //pass
-            }
-        }else{
-            //pass
-        }
-    }else{
-        //pass
-    }
-}
-function colisionCheckY(sx,sy){
-    if (first === false){
-        arrayCheckY = positionYNew.slice(1)
-        if (arrayCheckY.includes(sy)){
-            yIndex = arrayCheckY.indexOf(sy)
-            direction.innerText = yIndex;
-            if (positionXNew[yIndex] === sx){
-                death();
-            }else{
-                //pass
-            }
-        }else{
-            //pass
-        }
-    }else{
-        //pass
-    }
-}
-
+//function to check collision of the snake with itself when travelling in the x axis
 function colisionX(sx,sy){
     if (first === false){
         arrayCheckX = positionXNew.slice(1)
@@ -412,6 +387,7 @@ function colisionX(sx,sy){
         //pass
     }
 }
+//function to check collision of the snake with itself when travelling in the y axis
 function colisionY(sx,sy){
     if (first === false){
         arrayCheckY = positionYNew.slice(1)
@@ -430,7 +406,7 @@ function colisionY(sx,sy){
         //pass
     }
 }
-
+//function to reset all values to the initial values 
 function retry(){
     deathScreen.style.transform = "scale(0)";
     snake.style.transform = "translate(0px, 0px)";
