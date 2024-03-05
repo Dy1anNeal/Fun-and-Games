@@ -34,6 +34,7 @@ const downButton = document.querySelector('#downButton') ;
 
 const ssButton = document.querySelector('#ssButton');
 const flash = document.querySelector('#flash');
+const input = document.querySelector('#input') ;
 
 const snake = document.querySelector('#snake');
 const apple = document.querySelector('#apple');
@@ -70,6 +71,16 @@ upButton.addEventListener('click',moveUp);
 leftButton.addEventListener('click',moveLeft);
 rightButton.addEventListener('click',moveRight);
 downButton.addEventListener('click',moveDown);
+
+input.addEventListener('keydown',(e)=>{
+    if(e.code === "ArrowUp"){moveUp()}
+    else if(e.code === "ArrowLeft"){moveLeft()}
+    else if(e.code === "ArrowRight"){moveRight()}
+    else if(e.code === "ArrowDown"){moveDown()}
+    else{}
+});
+
+
 //button function for the screenshot button
 ssButton.onclick = screenShot;
 //function to rotate the entire joycon frame
@@ -99,6 +110,7 @@ function screenShot() {
 }
 
 //-SNAKE-MOVEMENT--------------------------------------------------------------//
+//using an arrow funtion all 4 of these could probs be put into one and some ifs
 //upwards movement
 function moveUp() {
     //check to make sure the snake cannot move 180 degrees
@@ -113,8 +125,7 @@ function moveUp() {
         if (upCheck === 1){
             up()
         }else if (upCheck > 1){
-            up()
-            upCheck = 0;
+            upCheck = 1;
         }
     }
 }
@@ -168,8 +179,7 @@ function moveLeft() {
         if (leftCheck === 1){
             left()
         }else if (leftCheck > 1){
-            left()
-            leftCheck = 0;
+            leftCheck = 1;
         }
     }
 }
@@ -219,8 +229,7 @@ function moveRight() {
         if (rightCheck === 1){
             right()
         }else if (rightCheck > 1){
-            right()
-            rightCheck = 0;
+            rightCheck = 1;
         }
     }
 }
@@ -270,8 +279,7 @@ function moveDown() {
         if (downCheck === 1){
             down()
         }else if (downCheck > 1){
-            down()
-            downCheck = 0;
+            downCheck = 1;
         }
     }
 }
