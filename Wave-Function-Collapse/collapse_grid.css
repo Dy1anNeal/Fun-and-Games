@@ -1,0 +1,71 @@
+html{
+    --backgroundred: rgb(255, 80, 80);
+
+    --editor-height: 20px;
+
+    background: rgb(255, 80, 80);
+}
+
+.centered{
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#main{
+    border: pink solid 10px;
+    margin-top: 10px;
+}
+
+/*-------------------------------------------------------------------------------*/
+
+#editor{
+    width: calc(100% - 20px);
+
+    background: white;
+    border: pink solid 10px;
+
+    display:flex ;
+}
+#editor p {
+    margin-left: 50px;
+    margin-right: 10px;
+}
+#editor input {
+    margin-right: 50px;
+    height: 20px;
+
+    position: relative;
+    top: calc(var(--editor-height)/2);
+
+    border: pink solid 3px;
+    background-color: rgb(255, 223, 228);
+}
+#editor button{
+    width: 100px;
+    position: relative;
+}
+
+/*-------------------------------------------------------------------------------*/
+#container{
+    display: flex;
+    flex-wrap: wrap;
+    border: pink solid 10px;
+    margin-top: 10px;
+}
+.segment{
+    height: 100px;
+    width: 100px;
+    background:"red";
+    /* background: URL("Images/T up.png"); */
+}
+
+/*-------------------------------------------------------------------------------*/
+
+#debugger{
+    width: calc(100% - 20px);
+
+    background: white;
+    border: pink solid 10px;
+    margin-top: 10px;
+}
